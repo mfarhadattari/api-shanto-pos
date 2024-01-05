@@ -13,9 +13,12 @@ const authSchema = new Schema<IAuth>(
       required: true,
       select: true,
     },
+    needPasswordChange: {
+      type: Boolean,
+      default: true,
+    },
     passwordChangedAt: {
       type: Date,
-      required: true,
     },
     isBlocked: {
       type: Boolean,
