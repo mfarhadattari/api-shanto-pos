@@ -2,10 +2,9 @@ import { z } from 'zod';
 
 export const phoneNumberValidationSchema = z
   .string({ invalid_type_error: 'Phone number must be string' })
-  .length(14)
   .refine(
     (value: string) => {
-      const regex = /^\+\d{1,3}\d{9}$/;
+      const regex = /(^(\+88)?(01){1}[3456789]{1}(\d){8})$/;
       return regex.test(value);
     },
     {
