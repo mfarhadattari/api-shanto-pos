@@ -59,6 +59,35 @@ const loginAdmin = async (payload: IAuth) => {
   return { accessToken, refreshToken, adminInfo };
 };
 
+// ---------------->> Refresh Token Services <<-----------------
+const refreshToken = async (token: string) => {
+  // decoding refresh token
+  const decoded = tokenDecoder(
+    token,
+    config.refresh_token_secret as string,
+  ) as JwtPayload;
+  if (!decoded) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'Unauthorized, failed to decode token',
+    );
+  }
+
+  // generating access token
+  const tokenPayload = {
+    _id: decoded._id,
+    username: decoded.username,
+    role: decoded.role,
+  };
+  const accessToken = tokenGenerator(
+    tokenPayload,
+    config.access_token_secret as string,
+    config.access_token_expires as string,
+  );
+
+  return { accessToken };
+};
+
 // ---------------->> Change Password Services <<-----------------
 const changePassword = async (
   userInfo: JwtPayload,
@@ -161,6 +190,7 @@ const resetPassword = async (
 // ---------------->> Export Auth Services <<-----------------
 export const AuthServices = {
   loginAdmin,
+  refreshToken,
   changePassword,
   forgetPassword,
   resetPassword,

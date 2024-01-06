@@ -26,6 +26,23 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Login Admin Controller <<-----------------
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const refreshToken = req.cookies['shanto-pos-refresh-token'];
+  const { accessToken } = await AuthServices.refreshToken(refreshToken);
+
+  res.cookie('shanto-pos-access-token', accessToken, {
+    httpOnly: true,
+    secure: config.node_env === 'production',
+  });
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Token refresh successfully',
+    data: null,
+  });
+});
+
 // ---------------->> Change Password Controller <<-----------------
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   await AuthServices.changePassword(req.user, req.body);
@@ -67,6 +84,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 // ---------------->> Export Auth Controllers <<-----------------
 export const AuthControllers = {
   loginAdmin,
+  refreshToken,
   changePassword,
   forgetPassword,
   resetPassword,

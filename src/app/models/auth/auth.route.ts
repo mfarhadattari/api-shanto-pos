@@ -18,6 +18,9 @@ router.post(
   AuthControllers.loginAdmin,
 );
 
+// ---------------->> Refresh Token Route <<-----------------
+router.get('/refresh-token', AuthControllers.refreshToken);
+
 // ---------------->> Change Password Route <<-----------------
 router.post(
   '/change-password',
