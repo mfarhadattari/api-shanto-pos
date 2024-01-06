@@ -11,4 +11,9 @@ export const config = {
   db_uri: process.env.DB_URI,
   default_password: process.env.DEFAULT_PASSWORD,
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+  refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
+  access_token_expires: process.env.ACCESS_TOKEN_EXPIRES,
+  refresh_token_expires: process.env.REFRESH_TOKEN_EXPIRES,
+  client_base_url: process.env.CLIENT_BASE_URL,
 };

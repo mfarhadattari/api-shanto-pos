@@ -31,6 +31,7 @@ const createAdmin = async (payload: IAdmin) => {
     const authInfo = {
       username: username,
       password: hashedPass,
+      role: payload.role,
     };
 
     const authResult = await Auth.create([authInfo], { session });

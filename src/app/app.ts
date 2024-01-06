@@ -1,5 +1,7 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
+import { config } from './config';
 import globalErrorHandler from './middlewares/globalErrorHandler';
 import notFound from './middlewares/notFound';
 import router from './route';
@@ -8,8 +10,14 @@ import router from './route';
 const app: Application = express();
 
 // ------------>> Application Parsers <<----------------
-app.use(cors());
+app.use(
+  cors({
+    origin: config.client_base_url,
+    optionsSuccessStatus: 200,
+  }),
+);
 app.use(express.json());
+app.use(cookieParser());
 
 // -------------->> Application Routes <<----------------
 app.use('/api', router);
