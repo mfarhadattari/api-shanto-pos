@@ -28,3 +28,16 @@ export const tokenGenerator = (
   const token = jwt.sign(payload, privateKey, { expiresIn });
   return token;
 };
+
+export const tokenDecoder = (token: string, privateKey: string) => {
+  const decoded = jwt.verify(token, privateKey) as JwtPayload;
+  return decoded;
+};
+
+export const isTokenGenerateAfterPasswordChange = (
+  tokenIssuedAt: number,
+  passwordChangeTimestamp: Date,
+) => {
+  const passwordChangedAt = new Date(passwordChangeTimestamp).getTime() / 1000;
+  return tokenIssuedAt > passwordChangedAt;
+};

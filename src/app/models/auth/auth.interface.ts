@@ -1,7 +1,9 @@
+import { TRole } from '../admin/admin.interface';
+
 export interface IAuth {
   username: string;
   password: string;
-  role: 'ADMIN' | 'SUPPER_ADMIN';
+  role: TRole;
   needPasswordChange: boolean;
   passwordChangedAt: Date;
   isBlocked: boolean;

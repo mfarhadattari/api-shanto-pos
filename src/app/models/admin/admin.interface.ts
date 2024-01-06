@@ -4,9 +4,11 @@ export interface IAddress {
   city: string;
 }
 
+export type TRole = 'ADMIN' | 'SUPER_ADMIN';
+
 export interface IAdmin {
   username: string;
-  role: 'ADMIN' | 'SUPPER_ADMIN';
+  role: TRole;
   name: string;
   avatar: string;
   email: string;

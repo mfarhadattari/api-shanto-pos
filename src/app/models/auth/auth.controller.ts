@@ -13,12 +13,10 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
   res.cookie('shanto-pos-access-token', accessToken, {
     httpOnly: true,
     secure: config.node_env === 'production',
-    domain: config.client_base_url,
   });
   res.cookie('shanto-pos-refresh-token', refreshToken, {
     httpOnly: true,
     secure: config.node_env === 'production',
-    domain: config.client_base_url,
   });
 
   sendResponse(res, {
