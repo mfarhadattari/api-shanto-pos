@@ -49,6 +49,14 @@ const authValidator = (...permissionRole: TRole[]) => {
       );
     }
 
+    // check admin isBlocked
+    if (admin.isBlocked) {
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        'Unauthorized, you cannot access',
+      );
+    }
+
     // check token generate after password change
     const isTOkenGenerateAfterPasswordChange =
       isTokenGenerateAfterPasswordChange(
