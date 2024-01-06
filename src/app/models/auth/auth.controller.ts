@@ -37,5 +37,16 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Forget Password Controller <<-----------------
+const forgetPassword = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.forgetPassword(req.user);
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'We send a password reset mail, check your email ',
+    data: result,
+  });
+});
+
 // ---------------->> Export Auth Controllers <<-----------------
-export const AuthControllers = { loginAdmin, changePassword };
+export const AuthControllers = { loginAdmin, changePassword, forgetPassword };

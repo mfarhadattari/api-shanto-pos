@@ -25,5 +25,12 @@ router.post(
   AuthControllers.changePassword,
 );
 
+// ---------------->> Forget Password Route <<-----------------
+router.get(
+  '/forget-password',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  AuthControllers.forgetPassword,
+);
+
 // export auth routes
 export const AuthRoute = router;

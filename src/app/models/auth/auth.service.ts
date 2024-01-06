@@ -6,7 +6,11 @@ import { Admin } from '../admin/admin.model';
 import { hashedPassword } from '../admin/admin.utils';
 import { IAuth, IChangePassword } from './auth.interface';
 import { Auth } from './auth.model';
-import { matchingPasswords, tokenGenerator } from './auth.utils';
+import {
+  matchingPasswords,
+  sendPasswordResetMail,
+  tokenGenerator,
+} from './auth.utils';
 
 // ---------------->> Login Services <<-----------------
 const loginAdmin = async (payload: IAuth) => {
@@ -86,5 +90,27 @@ const changePassword = async (
   });
 };
 
+// -------------->> Forget Password Services <<-----------------
+const forgetPassword = async (userInfo: JwtPayload) => {
+  const admin = await Admin.findOne({ username: userInfo.username });
+  if (!admin) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Admin not found');
+  }
+  // generate password reset token and link
+  // generating jwt
+  const tokenPayload = {
+    _id: userInfo._id,
+    username: userInfo.username,
+    role: userInfo.role,
+  };
+  const resetToken = tokenGenerator(
+    tokenPayload,
+    config.access_token_secret as string,
+    '5m',
+  );
+  const passwordResetLink = `${config.client_base_url}/reset-password?token=${resetToken}`;
+  await sendPasswordResetMail(admin.name, admin.email, passwordResetLink);
+};
+
 // ---------------->> Export Auth Services <<-----------------
-export const AuthServices = { loginAdmin, changePassword };
+export const AuthServices = { loginAdmin, changePassword, forgetPassword };

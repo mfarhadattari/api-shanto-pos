@@ -7,6 +7,7 @@ dotenv.config({
 
 export const config = {
   node_env: process.env.NODE_ENV,
+  app_name: process.env.APP_NAME,
   port: process.env.PORT,
   db_uri: process.env.DB_URI,
   default_password: process.env.DEFAULT_PASSWORD,
@@ -16,4 +17,8 @@ export const config = {
   access_token_expires: process.env.ACCESS_TOKEN_EXPIRES,
   refresh_token_expires: process.env.REFRESH_TOKEN_EXPIRES,
   client_base_url: process.env.CLIENT_BASE_URL,
+  nodemailer_host: process.env.NODEMAILER_HOST,
+  nodemailer_port: process.env.NODEMAILER_PORT,
+  nodemailer_user: process.env.NODEMAILER_USER,
+  nodemailer_password: process.env.NODEMAILER_PASS,
 };
