@@ -26,5 +26,16 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Change Password Controller <<-----------------
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  await AuthServices.changePassword(req.user, req.body);
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Password changed successfully',
+    data: null,
+  });
+});
+
 // ---------------->> Export Auth Controllers <<-----------------
-export const AuthControllers = { loginAdmin };
+export const AuthControllers = { loginAdmin, changePassword };

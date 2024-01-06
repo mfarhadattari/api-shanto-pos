@@ -8,3 +8,7 @@ export interface IAuth {
   passwordChangedAt: Date;
   isBlocked: boolean;
 }
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}

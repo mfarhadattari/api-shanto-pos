@@ -10,8 +10,8 @@ export const matchingPasswords = async (
   let isMatched = false;
   await bcrypt
     .compare(planPassword, hashedPassword)
-    .then(() => {
-      isMatched = true;
+    .then((result) => {
+      isMatched = result;
     })
     .catch((error) => {
       throw new AppError(httpStatus.BAD_REQUEST, error.message);
@@ -38,6 +38,7 @@ export const isTokenGenerateAfterPasswordChange = (
   tokenIssuedAt: number,
   passwordChangeTimestamp: Date,
 ) => {
-  const passwordChangedAt = new Date(passwordChangeTimestamp).getTime() / 1000;
+  const passwordChangedAt =
+    new Date(passwordChangeTimestamp).getTime() / 1000 || 0;
   return tokenIssuedAt > passwordChangedAt;
 };

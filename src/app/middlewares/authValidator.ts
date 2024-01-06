@@ -9,7 +9,7 @@ import {
 } from '../models/auth/auth.utils';
 import catchAsync from '../utils/catchAsync';
 
-const authValidator = (permissionRole: TRole = 'ADMIN') => {
+const authValidator = (...permissionRole: TRole[]) => {
   return catchAsync(async (req, res, next) => {
     // check token existence
     const accessToken = req.cookies['shanto-pos-access-token'];
@@ -32,7 +32,7 @@ const authValidator = (permissionRole: TRole = 'ADMIN') => {
     }
 
     // check admin has permissions
-    const isAdminHasPermission = permissionRole === decode.role;
+    const isAdminHasPermission = permissionRole.includes(decode.role);
     if (!isAdminHasPermission) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
@@ -49,15 +49,6 @@ const authValidator = (permissionRole: TRole = 'ADMIN') => {
       );
     }
 
-    // check need password change
-    const needPasswordChange = admin.needPasswordChange;
-    if (needPasswordChange) {
-      throw new AppError(
-        httpStatus.UNAUTHORIZED,
-        'Unauthorized, first you need to change your password',
-      );
-    }
-
     // check token generate after password change
     const isTOkenGenerateAfterPasswordChange =
       isTokenGenerateAfterPasswordChange(
@@ -70,6 +61,8 @@ const authValidator = (permissionRole: TRole = 'ADMIN') => {
         'Unauthorized, this token in issued before password change',
       );
     }
+
+    req.user = decode;
     next();
   });
 };
