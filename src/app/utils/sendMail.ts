@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import nodemailer from 'nodemailer';
-import { config } from '../app/config';
-import AppError from '../app/error/AppError';
+import { config } from '../config';
+import AppError from '../error/AppError';
 
 const transporter = nodemailer.createTransport({
   host: config.nodemailer_host,
@@ -18,11 +18,10 @@ const sendMail = async (to: string, subject: string, body: string) => {
     await transporter.sendMail({
       from: config.nodemailer_user,
       to: to,
-      subject: subject || 'Mail Shanto POS',
+      subject: subject || `Mail from ${config.app_name}`,
       html: body,
     });
   } catch (error) {
-    console.log(error);
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to send mail');
   }
 };

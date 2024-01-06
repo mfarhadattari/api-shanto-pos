@@ -5,6 +5,7 @@ import { AuthControllers } from './auth.controller';
 import {
   changePasswordValidationSchema,
   loginAdminValidationSchema,
+  resetPasswordValidationSchema,
 } from './auth.validation';
 
 // initialize router
@@ -30,6 +31,14 @@ router.get(
   '/forget-password',
   authValidator('ADMIN', 'SUPER_ADMIN'),
   AuthControllers.forgetPassword,
+);
+
+// ---------------->> Forget Password Route <<-----------------
+router.post(
+  '/reset-password',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  reqBodyValidator(resetPasswordValidationSchema),
+  AuthControllers.resetPassword,
 );
 
 // export auth routes

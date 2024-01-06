@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import sendMail from '../../../utils/sendMail';
 import { config } from '../../config';
 import AppError from '../../error/AppError';
+import sendMail from '../../utils/sendMail';
 
 export const matchingPasswords = async (
   hashedPassword: string,
