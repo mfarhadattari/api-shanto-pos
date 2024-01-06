@@ -6,7 +6,7 @@ import AppError from '../../error/AppError';
 import { Auth } from '../auth/auth.model';
 import { IAdmin } from './admin.interface';
 import { Admin } from './admin.model';
-import { generateUsername } from './admin.utils';
+import { generateUsername, hashedPassword } from './admin.utils';
 
 // ---------------->> Create Admin Service <<-----------------
 const createAdmin = async (payload: IAdmin) => {
@@ -17,6 +17,12 @@ const createAdmin = async (payload: IAdmin) => {
     username = generateUsername(payload.email);
   }
 
+  // hashing password
+  const hashedPass = await hashedPassword(config.default_password as string);
+  if (!hashedPass) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to hashed password');
+  }
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -24,7 +30,7 @@ const createAdmin = async (payload: IAdmin) => {
     // create auth info and store into db
     const authInfo = {
       username: username,
-      password: config.default_password,
+      password: hashedPass,
     };
 
     const authResult = await Auth.create([authInfo], { session });

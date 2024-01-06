@@ -6,6 +6,7 @@ export interface IAddress {
 
 export interface IAdmin {
   username: string;
+  role: 'ADMIN' | 'SUPPER_ADMIN';
   name: string;
   avatar: string;
   email: string;

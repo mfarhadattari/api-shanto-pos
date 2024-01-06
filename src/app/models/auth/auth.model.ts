@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { ROLE } from './auth.const';
 import { IAuth } from './auth.interface';
 
 const authSchema = new Schema<IAuth>(
@@ -12,6 +13,11 @@ const authSchema = new Schema<IAuth>(
       type: String,
       required: true,
       select: true,
+    },
+    role: {
+      type: String,
+      enum: ROLE,
+      default: 'ADMIN',
     },
     needPasswordChange: {
       type: Boolean,

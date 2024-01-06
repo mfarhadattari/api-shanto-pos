@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { ROLE } from '../auth/auth.const';
 import { IAddress, IAdmin } from './admin.interface';
 
 const addressSchema = new Schema<IAddress>(
@@ -17,6 +18,11 @@ const adminSchema = new Schema<IAdmin>(
       required: true,
       unique: true,
     },
+    role: {
+      type: String,
+      enum: ROLE,
+      default: 'ADMIN',
+    },
     name: {
       type: String,
       required: true,
@@ -28,14 +34,17 @@ const adminSchema = new Schema<IAdmin>(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
       type: String,
       required: true,
+      unique: true,
     },
     nid: {
       type: String,
       required: true,
+      unique: true,
     },
     address: {
       type: addressSchema,
