@@ -15,8 +15,15 @@ router.post(
   AdminControllers.createAdmin,
 );
 
-// ---------------->> Create Admin Route <<-----------------
+// ---------------->> Get All Admin Route <<-----------------
 router.get('/', authValidator('SUPER_ADMIN'), AdminControllers.getAllAdmin);
+
+// ---------------->> Get Single Admin Route <<-----------------
+router.get(
+  '/:adminId',
+  authValidator('SUPER_ADMIN'),
+  AdminControllers.getSingleAdmin,
+);
 
 // export admin routes
 export const AdminRoute = router;

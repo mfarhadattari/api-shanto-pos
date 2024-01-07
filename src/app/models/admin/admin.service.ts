@@ -70,5 +70,11 @@ const getAllAdmin = async (query: Record<string, unknown>) => {
   return result;
 };
 
+// ---------------->> Get Single Admin Service <<-----------------
+const getSingleAdmin = async (adminId: string) => {
+  const result = await Admin.findById(adminId);
+  return result;
+};
+
 // ---------------->> Export Admin Services <<-----------------
-export const AdminServices = { createAdmin, getAllAdmin };
+export const AdminServices = { createAdmin, getAllAdmin, getSingleAdmin };

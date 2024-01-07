@@ -24,5 +24,15 @@ const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Create Single Admin Controller <<-----------------
+const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminServices.getSingleAdmin(req.params.adminId);
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Admin got successfully',
+    data: result,
+  });
+});
+
 // ---------------->> Export Admin Controllers <<-----------------
-export const AdminControllers = { createAdmin, getAllAdmin };
+export const AdminControllers = { createAdmin, getAllAdmin, getSingleAdmin };
