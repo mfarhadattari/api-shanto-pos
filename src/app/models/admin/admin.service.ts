@@ -76,5 +76,22 @@ const getSingleAdmin = async (adminId: string) => {
   return result;
 };
 
+// ---------------->> Block or Unblock Admin Service <<-----------------
+const blockOrUnblockAdmin = async (adminId: string, isBlocked: boolean) => {
+  const result = await Admin.findByIdAndUpdate(
+    adminId,
+    { isBlocked },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 // ---------------->> Export Admin Services <<-----------------
-export const AdminServices = { createAdmin, getAllAdmin, getSingleAdmin };
+export const AdminServices = {
+  createAdmin,
+  getAllAdmin,
+  getSingleAdmin,
+  blockOrUnblockAdmin,
+};

@@ -31,7 +31,9 @@ export const addressValidationSchema = z.object({
 export const createAdminValidationSchema = z.object({
   body: z.object({
     role: z
-      .enum(ROLE, { invalid_type_error: 'Role must be ADMIN or SUPPER_ADMIN' })
+      .enum(ROLE as [string, ...string[]], {
+        invalid_type_error: 'Role must be ADMIN or SUPPER_ADMIN',
+      })
       .default('ADMIN'),
     name: z.string({
       invalid_type_error: 'Name must be a string',

@@ -34,5 +34,24 @@ const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Block or Unblock Admin Controller <<-----------------
+const blockOrUnblockAdmin = catchAsync(async (req: Request, res: Response) => {
+  const isBlocked = req.query.isBlocked === 'true';
+  const result = await AdminServices.blockOrUnblockAdmin(
+    req.params.adminId,
+    isBlocked,
+  );
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: `Admin ${isBlocked ? 'blocked' : 'unblocked'} successfully`,
+    data: result,
+  });
+});
+
 // ---------------->> Export Admin Controllers <<-----------------
-export const AdminControllers = { createAdmin, getAllAdmin, getSingleAdmin };
+export const AdminControllers = {
+  createAdmin,
+  getAllAdmin,
+  getSingleAdmin,
+  blockOrUnblockAdmin,
+};

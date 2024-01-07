@@ -25,5 +25,12 @@ router.get(
   AdminControllers.getSingleAdmin,
 );
 
+// ---------------->> Block or Unblock Admin Route <<-----------------
+router.patch(
+  '/block-admin/:adminId',
+  authValidator('SUPER_ADMIN'),
+  AdminControllers.blockOrUnblockAdmin,
+);
+
 // export admin routes
 export const AdminRoute = router;
