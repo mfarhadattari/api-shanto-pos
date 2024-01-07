@@ -3,7 +3,9 @@ import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import { config } from '../../config';
 import AppError from '../../error/AppError';
+import QueryBuilder from '../../utils/QueryBuilder';
 import { Auth } from '../auth/auth.model';
+import { ADMIN_SEARCHABLE_FIELDS } from './admin.const';
 import { IAdmin } from './admin.interface';
 import { Admin } from './admin.model';
 import { generateUsername, hashedPassword } from './admin.utils';
@@ -57,8 +59,14 @@ const createAdmin = async (payload: IAdmin) => {
 };
 
 // ---------------->> Get Admin Service <<-----------------
-const getAllAdmin = async () => {
-  const result = await Admin.find();
+const getAllAdmin = async (query: Record<string, unknown>) => {
+  const modelQuery = Admin.find();
+  const adminQuery = new QueryBuilder(modelQuery, query)
+    .search(ADMIN_SEARCHABLE_FIELDS)
+    .filter()
+    .sort();
+
+  const result = await adminQuery.modelQuery;
   return result;
 };
 

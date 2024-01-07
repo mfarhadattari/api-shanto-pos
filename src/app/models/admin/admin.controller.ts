@@ -16,7 +16,7 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
 
 // ---------------->> Create Admin Controller <<-----------------
 const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminServices.getAllAdmin();
+  const result = await AdminServices.getAllAdmin(req.query);
   sendResponse(res, {
     status: httpStatus.OK,
     message: 'Admin retrieve successfully',
