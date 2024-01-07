@@ -26,6 +26,14 @@ const loginAdmin = async (payload: IAuth) => {
     );
   }
 
+  // check admin isBlocked
+  if (admin.isBlocked) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      `Unauthorized, Admin is blocked`,
+    );
+  }
+
   // matching password
   const isPasswordMatch = await matchingPasswords(
     admin.password,

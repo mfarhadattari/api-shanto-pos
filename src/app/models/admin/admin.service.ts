@@ -81,22 +81,6 @@ const blockOrUnblockAdmin = async (adminId: string, isBlocked: boolean) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    // update in auth collection
-    const authUpdate = await Admin.findByIdAndUpdate(
-      adminId,
-      { isBlocked },
-      {
-        session: session,
-        new: true,
-      },
-    );
-
-    if (!authUpdate) {
-      throw new AppError(
-        httpStatus.BAD_REQUEST,
-        `Failed to ${isBlocked ? 'blocked' : 'unblocked'} admin`,
-      );
-    }
 
     // update in admin collection
     const result = await Admin.findByIdAndUpdate(
@@ -109,6 +93,23 @@ const blockOrUnblockAdmin = async (adminId: string, isBlocked: boolean) => {
     );
 
     if (!result) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        `Failed to ${isBlocked ? 'blocked' : 'unblocked'} admin`,
+      );
+    }
+
+    // update in auth collection
+    const authUpdate = await Auth.findOneAndUpdate(
+      { username: result.username },
+      { isBlocked },
+      {
+        session: session,
+        new: true,
+      },
+    );
+
+    if (!authUpdate) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
         `Failed to ${isBlocked ? 'blocked' : 'unblocked'} admin`,
