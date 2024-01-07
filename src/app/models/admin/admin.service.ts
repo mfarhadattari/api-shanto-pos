@@ -78,14 +78,52 @@ const getSingleAdmin = async (adminId: string) => {
 
 // ---------------->> Block or Unblock Admin Service <<-----------------
 const blockOrUnblockAdmin = async (adminId: string, isBlocked: boolean) => {
-  const result = await Admin.findByIdAndUpdate(
-    adminId,
-    { isBlocked },
-    {
-      new: true,
-    },
-  );
-  return result;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    // update in auth collection
+    const authUpdate = await Admin.findByIdAndUpdate(
+      adminId,
+      { isBlocked },
+      {
+        session: session,
+        new: true,
+      },
+    );
+
+    if (!authUpdate) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        `Failed to ${isBlocked ? 'blocked' : 'unblocked'} admin`,
+      );
+    }
+
+    // update in admin collection
+    const result = await Admin.findByIdAndUpdate(
+      adminId,
+      { isBlocked },
+      {
+        session: session,
+        new: true,
+      },
+    );
+
+    if (!result) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        `Failed to ${isBlocked ? 'blocked' : 'unblocked'} admin`,
+      );
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+
+    return result;
+  } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, error.message);
+  }
 };
 
 // ---------------->> Export Admin Services <<-----------------
