@@ -26,7 +26,7 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// ---------------->> Login Admin Controller <<-----------------
+// ---------------->> Refresh Token Controller <<-----------------
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const refreshToken = req.cookies['shanto-pos-refresh-token'];
   const { accessToken } = await AuthServices.refreshToken(refreshToken);
@@ -65,7 +65,7 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// ---------------->> Forget Password Controller <<-----------------
+// ---------------->> Reset Password Controller <<-----------------
 const resetPassword = catchAsync(async (req: Request, res: Response) => {
   const token = req.headers.authorization;
   const result = await AuthServices.resetPassword(
@@ -81,6 +81,17 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> My Profile Controller <<-----------------
+const myProfile = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.myProfile(req.user);
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Profile retrieve successfully',
+    data: result,
+  });
+});
+
 // ---------------->> Export Auth Controllers <<-----------------
 export const AuthControllers = {
   loginAdmin,
@@ -88,4 +99,5 @@ export const AuthControllers = {
   changePassword,
   forgetPassword,
   resetPassword,
+  myProfile,
 };

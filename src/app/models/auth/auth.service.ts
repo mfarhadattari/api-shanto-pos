@@ -187,6 +187,16 @@ const resetPassword = async (
   return null;
 };
 
+// -------------->> My Profile Services <<-----------------
+const myProfile = async (userInfo: JwtPayload) => {
+  const admin = await Admin.findOne({
+    username: userInfo.username,
+    role: userInfo.role,
+  });
+
+  return admin;
+};
+
 // ---------------->> Export Auth Services <<-----------------
 export const AuthServices = {
   loginAdmin,
@@ -194,4 +204,5 @@ export const AuthServices = {
   changePassword,
   forgetPassword,
   resetPassword,
+  myProfile,
 };

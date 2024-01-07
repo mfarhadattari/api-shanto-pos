@@ -44,5 +44,12 @@ router.post(
   AuthControllers.resetPassword,
 );
 
+// ---------------->> My Profile Route <<-----------------
+router.get(
+  '/my-profile',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  AuthControllers.myProfile,
+);
+
 // export auth routes
 export const AuthRoute = router;
