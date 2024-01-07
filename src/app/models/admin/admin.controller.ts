@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AdminServices } from './admin.service';
@@ -13,5 +14,15 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Create Admin Controller <<-----------------
+const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminServices.getAllAdmin();
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Admin retrieve successfully',
+    data: result,
+  });
+});
+
 // ---------------->> Export Admin Controllers <<-----------------
-export const AdminControllers = { createAdmin };
+export const AdminControllers = { createAdmin, getAllAdmin };

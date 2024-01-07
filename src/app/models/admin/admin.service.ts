@@ -56,5 +56,11 @@ const createAdmin = async (payload: IAdmin) => {
   }
 };
 
+// ---------------->> Get Admin Service <<-----------------
+const getAllAdmin = async () => {
+  const result = await Admin.find();
+  return result;
+};
+
 // ---------------->> Export Admin Services <<-----------------
-export const AdminServices = { createAdmin };
+export const AdminServices = { createAdmin, getAllAdmin };
