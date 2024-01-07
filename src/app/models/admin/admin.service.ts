@@ -6,7 +6,7 @@ import AppError from '../../error/AppError';
 import QueryBuilder from '../../utils/QueryBuilder';
 import { Auth } from '../auth/auth.model';
 import { ADMIN_SEARCHABLE_FIELDS } from './admin.const';
-import { IAdmin } from './admin.interface';
+import { IAdmin, IUpdateAdmin } from './admin.interface';
 import { Admin } from './admin.model';
 import { generateUsername, hashedPassword } from './admin.utils';
 
@@ -127,10 +127,31 @@ const blockOrUnblockAdmin = async (adminId: string, isBlocked: boolean) => {
   }
 };
 
+// ---------------->> Update Admin Service <<-----------------
+const updateAdmin = async (adminId: string, payload: IUpdateAdmin) => {
+  const { address, ...remainingInfo } = payload;
+  const updatedData: Record<string, unknown> = {
+    ...remainingInfo,
+  };
+  if (address && Object.keys(address).length) {
+    for (const [key, value] of Object.entries(address)) {
+      updatedData[`address.${key}`] = value;
+    }
+  }
+
+  const result = await Admin.findByIdAndUpdate(adminId, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
+
 // ---------------->> Export Admin Services <<-----------------
 export const AdminServices = {
   createAdmin,
   getAllAdmin,
   getSingleAdmin,
   blockOrUnblockAdmin,
+  updateAdmin,
 };

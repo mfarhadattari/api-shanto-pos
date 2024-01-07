@@ -48,10 +48,21 @@ const blockOrUnblockAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// ---------------->> Update Admin Controller <<-----------------
+const updateAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminServices.updateAdmin(req.params.adminId, req.body);
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: `Admin updated successfully`,
+    data: result,
+  });
+});
+
 // ---------------->> Export Admin Controllers <<-----------------
 export const AdminControllers = {
   createAdmin,
   getAllAdmin,
   getSingleAdmin,
   blockOrUnblockAdmin,
+  updateAdmin,
 };

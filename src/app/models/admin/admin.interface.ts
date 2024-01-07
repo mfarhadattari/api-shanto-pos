@@ -17,3 +17,9 @@ export interface IAdmin {
   address: IAddress;
   isBlocked: boolean;
 }
+export interface IUpdateAdmin {
+  avatar: string;
+  email: string;
+  phone: string;
+  address: IAddress;
+}

@@ -2,7 +2,10 @@ import express from 'express';
 import authValidator from '../../middlewares/authValidator';
 import reqBodyValidator from '../../middlewares/reqBodyValidator';
 import { AdminControllers } from './admin.controller';
-import { createAdminValidationSchema } from './admin.validation';
+import {
+  createAdminValidationSchema,
+  updateAdminValidationSchema,
+} from './admin.validation';
 
 // initialize router
 const router = express.Router();
@@ -30,6 +33,14 @@ router.patch(
   '/block-admin/:adminId',
   authValidator('SUPER_ADMIN'),
   AdminControllers.blockOrUnblockAdmin,
+);
+
+// ---------------->> Update Admin Route <<-----------------
+router.patch(
+  '/update-admin/:adminId',
+  authValidator('SUPER_ADMIN'),
+  reqBodyValidator(updateAdminValidationSchema),
+  AdminControllers.updateAdmin,
 );
 
 // export admin routes

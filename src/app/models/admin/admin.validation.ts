@@ -73,6 +73,6 @@ export const updateAdminValidationSchema = z.object({
       .email('Your email is invalid')
       .optional(),
     phone: phoneNumberValidationSchema.optional(),
-    address: addressValidationSchema,
+    address: addressValidationSchema.optional(),
   }),
 });
