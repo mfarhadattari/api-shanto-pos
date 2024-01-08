@@ -41,10 +41,21 @@ const getSingleCategory = async (categoryId: string) => {
 };
 
 // ---------------->> Delete Category Service <<-----------------
+const deleteCategory = async (categoryId: string) => {
+  const isCategoryAlreadyExists = await Category.findById(categoryId);
+  if (!isCategoryAlreadyExists) {
+    throw new AppError(httpStatus.NOT_FOUND, `Category name is not exists`);
+  }
+  await Category.findByIdAndUpdate(categoryId, {
+    isDeleted: true,
+  });
+  return null;
+};
 
 // ---------------->> Export Category Services <<-----------------
 export const CategoryServices = {
   createCategory,
   getAllCategory,
   getSingleCategory,
+  deleteCategory,
 };

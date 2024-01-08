@@ -30,6 +30,11 @@ router.get(
 );
 
 // ---------------->> Delete Category Route <<-----------------
+router.delete(
+  '/:categoryId',
+  authValidator('SUPER_ADMIN', 'ADMIN'),
+  CategoryControllers.deleteCategory,
+);
 
 // export Category routes
 export const CategoryRoutes = router;
