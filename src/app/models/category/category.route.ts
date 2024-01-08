@@ -23,6 +23,11 @@ router.get(
 );
 
 // ---------------->> Get Single Category Route <<-----------------
+router.get(
+  '/:categoryId',
+  authValidator('SUPER_ADMIN', 'ADMIN'),
+  CategoryControllers.getSingleCategory,
+);
 
 // ---------------->> Delete Category Route <<-----------------
 

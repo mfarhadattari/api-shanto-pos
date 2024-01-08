@@ -27,11 +27,18 @@ const getAllCategory = async (query: Record<string, unknown>) => {
     .filter()
     .sort();
 
-  const result = categoryQuery.modelQuery;
+  const result = await categoryQuery.modelQuery;
   return result;
 };
 
 // ---------------->> Get Single Category Service <<-----------------
+const getSingleCategory = async (categoryId: string) => {
+  const result = await Category.findById(categoryId);
+  if (!result) {
+    throw new AppError(httpStatus.CONFLICT, `Category not found`);
+  }
+  return result;
+};
 
 // ---------------->> Delete Category Service <<-----------------
 
@@ -39,4 +46,5 @@ const getAllCategory = async (query: Record<string, unknown>) => {
 export const CategoryServices = {
   createCategory,
   getAllCategory,
+  getSingleCategory,
 };
