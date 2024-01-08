@@ -1,9 +1,19 @@
 import express from 'express';
+import authValidator from '../../middlewares/authValidator';
+import reqBodyValidator from '../../middlewares/reqBodyValidator';
+import { CategoryControllers } from './category.controller';
+import { createCategoryValidationSchema } from './category.validation';
 
 // initialize router
 const router = express.Router();
 
 // ---------------->> Create Category Route <<-----------------
+router.post(
+  '/',
+  authValidator('SUPER_ADMIN'),
+  reqBodyValidator(createCategoryValidationSchema),
+  CategoryControllers.createCategory,
+);
 
 // ---------------->> Get All Category Route <<-----------------
 
