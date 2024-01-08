@@ -1,18 +1,23 @@
 import express from 'express';
-import { AdminRoute } from '../models/admin/admin.route';
-import { AuthRoute } from '../models/auth/auth.route';
+import { AdminRoutes } from '../models/admin/admin.route';
+import { AuthRoutes } from '../models/auth/auth.route';
+import { CategoryRoutes } from '../models/category/category.route';
 
 // -------------->> Initialized Router <<------------------
 const router = express.Router();
 
 const applicationRoutes = [
   {
-    path: '/admin',
-    routes: AdminRoute,
+    path: '/auth',
+    routes: AuthRoutes,
   },
   {
-    path: '/auth',
-    routes: AuthRoute,
+    path: '/admin',
+    routes: AdminRoutes,
+  },
+  {
+    path: '/categories',
+    routes: CategoryRoutes,
   },
 ];
 

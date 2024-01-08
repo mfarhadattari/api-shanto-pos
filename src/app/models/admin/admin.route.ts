@@ -44,4 +44,4 @@ router.patch(
 );
 
 // export admin routes
-export const AdminRoute = router;
+export const AdminRoutes = router;

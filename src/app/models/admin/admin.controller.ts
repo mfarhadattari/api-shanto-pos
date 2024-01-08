@@ -14,7 +14,7 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// ---------------->> Create Admin Controller <<-----------------
+// ---------------->> Get All Admin Controller <<-----------------
 const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
   const result = await AdminServices.getAllAdmin(req.query);
   sendResponse(res, {
@@ -24,7 +24,7 @@ const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// ---------------->> Create Single Admin Controller <<-----------------
+// ---------------->> Get Single Admin Controller <<-----------------
 const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   const result = await AdminServices.getSingleAdmin(req.params.adminId);
   sendResponse(res, {
