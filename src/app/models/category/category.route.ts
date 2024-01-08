@@ -16,6 +16,11 @@ router.post(
 );
 
 // ---------------->> Get All Category Route <<-----------------
+router.get(
+  '/',
+  authValidator('SUPER_ADMIN', 'ADMIN'),
+  CategoryControllers.getAllCategory,
+);
 
 // ---------------->> Get Single Category Route <<-----------------
 
