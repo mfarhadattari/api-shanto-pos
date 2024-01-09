@@ -71,7 +71,18 @@ const updateProduct = async (productId: string, payload: Partial<IProduct>) => {
 
 // ---------------->> Delete Product Service <<-----------------
 const deleteProduct = async (productId: string) => {
-  console.log({ productId });
+  // check if product exist
+  const isProductAlreadyExist = await Product.findById(productId);
+  if (!isProductAlreadyExist) {
+    throw new AppError(httpStatus.NOT_FOUND, `Product is not exists`);
+  }
+
+  // delete product
+  await Product.findByIdAndUpdate(productId, {
+    isDeleted: true,
+  }).populate('categoryId');
+
+  return null;
 };
 
 // ---------------->> Export Product Services <<-----------------
