@@ -62,9 +62,16 @@ const deleteCart = async (adminInfo: JwtPayload, cartId: string) => {
   return null;
 };
 
+// ----------------->> Clear Cart Service <<-------------------
+const clearCarts = async (adminInfo: JwtPayload) => {
+  await Cart.deleteMany({ createdBy: adminInfo.username });
+  return null;
+};
+
 // ----------------->> Export Cart Services <<-------------------
 export const CartServices = {
   createCart,
   myCarts,
   deleteCart,
+  clearCarts,
 };

@@ -18,6 +18,13 @@ router.post(
 // ---------------->> My Carts Route <<-----------------
 router.get('/', authValidator('ADMIN', 'SUPER_ADMIN'), CartControllers.myCarts);
 
+// ---------------->> Clear Carts Route <<-----------------
+router.delete(
+  '/clear-carts',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  CartControllers.clearCarts,
+);
+
 // ---------------->> My Carts Route <<-----------------
 router.delete(
   '/:cartId',

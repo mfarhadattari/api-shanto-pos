@@ -35,9 +35,20 @@ const deleteCart = catchAsync(async (req, res) => {
   });
 });
 
+// ----------------->> Clear Cart Controller <<-----------------------
+const clearCarts = catchAsync(async (req, res) => {
+  const result = await CartServices.clearCarts(req.user);
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Cart clear successfully',
+    data: result,
+  });
+});
+
 // ----------------->> Export Cart Controllers <<-------------------
 export const CartControllers = {
   createCart,
   myCarts,
   deleteCart,
+  clearCarts,
 };
