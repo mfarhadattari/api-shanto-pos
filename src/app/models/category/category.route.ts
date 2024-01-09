@@ -32,7 +32,7 @@ router.get(
 // ---------------->> Delete Category Route <<-----------------
 router.delete(
   '/:categoryId',
-  authValidator('SUPER_ADMIN', 'ADMIN'),
+  authValidator('SUPER_ADMIN'),
   CategoryControllers.deleteCategory,
 );
 
