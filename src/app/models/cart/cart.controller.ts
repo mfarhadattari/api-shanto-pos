@@ -14,7 +14,19 @@ const createCart = catchAsync(async (req, res) => {
   });
 });
 
+// ----------------->> My Carts Controller <<-------------------
+const myCarts = catchAsync(async (req, res) => {
+  const adminInfo = req.user;
+  const result = await CartServices.myCarts(adminInfo);
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Cart retrieved successfully',
+    data: result,
+  });
+});
+
 // ----------------->> Export Cart Controllers <<-------------------
 export const CartControllers = {
   createCart,
+  myCarts,
 };

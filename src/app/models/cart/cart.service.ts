@@ -20,18 +20,27 @@ const createCart = async (adminInfo: JwtPayload, payload: ICart) => {
       {
         new: true,
       },
-    );
+    ).populate('product');
     return result;
   }
 
   // if not exist create new cart
   payload.createdBy = adminInfo.username;
   payload.quantity = 1;
-  const result = await Cart.create(payload);
+  const result = (await Cart.create(payload)).populate('product');
+  return result;
+};
+
+// ----------------->> Get My Carts Service <<-------------------
+const myCarts = async (adminInfo: JwtPayload) => {
+  const result = await Cart.find({ createdBy: adminInfo.username }).populate(
+    'product',
+  );
   return result;
 };
 
 // ----------------->> Export Cart Services <<-------------------
 export const CartServices = {
   createCart,
+  myCarts,
 };

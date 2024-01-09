@@ -15,5 +15,8 @@ router.post(
   CartControllers.createCart,
 );
 
+// ---------------->> My Carts Route <<-----------------
+router.get('/', authValidator('ADMIN', 'SUPER_ADMIN'), CartControllers.myCarts);
+
 // export cart routes
 export const CartRoutes = router;
