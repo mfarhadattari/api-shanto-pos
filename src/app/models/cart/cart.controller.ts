@@ -25,8 +25,19 @@ const myCarts = catchAsync(async (req, res) => {
   });
 });
 
+// ----------------->> Delete Cart Controller <<-----------------------
+const deleteCart = catchAsync(async (req, res) => {
+  const result = await CartServices.deleteCart(req.user, req.params.cartId);
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Cart deleted successfully',
+    data: result,
+  });
+});
+
 // ----------------->> Export Cart Controllers <<-------------------
 export const CartControllers = {
   createCart,
   myCarts,
+  deleteCart,
 };

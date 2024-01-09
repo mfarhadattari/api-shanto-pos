@@ -1,4 +1,6 @@
+import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
+import AppError from '../../error/AppError';
 import { ICart } from './cart.interface';
 import { Cart } from './cart.model';
 
@@ -39,8 +41,30 @@ const myCarts = async (adminInfo: JwtPayload) => {
   return result;
 };
 
+// ----------------->> Delete Cart Service <<-------------------
+const deleteCart = async (adminInfo: JwtPayload, cartId: string) => {
+  // check cart exist
+  const isCartExist = await Cart.findById(cartId);
+  if (!isCartExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Cart is not found');
+  }
+
+  // check created by and admin user name
+  const isAdminHasPermission = adminInfo.username === isCartExist.createdBy;
+  if (!isAdminHasPermission) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'Unauthorized, you do not have permission',
+    );
+  }
+
+  await Cart.findByIdAndDelete(cartId);
+  return null;
+};
+
 // ----------------->> Export Cart Services <<-------------------
 export const CartServices = {
   createCart,
   myCarts,
+  deleteCart,
 };

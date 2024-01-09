@@ -18,5 +18,12 @@ router.post(
 // ---------------->> My Carts Route <<-----------------
 router.get('/', authValidator('ADMIN', 'SUPER_ADMIN'), CartControllers.myCarts);
 
+// ---------------->> My Carts Route <<-----------------
+router.delete(
+  '/:cartId',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  CartControllers.deleteCart,
+);
+
 // export cart routes
 export const CartRoutes = router;
