@@ -1,8 +1,32 @@
+import httpStatus from 'http-status';
+import AppError from '../../error/AppError';
+import { Category } from '../category/category.model';
 import { IProduct } from './product.interface';
+import { Product } from './product.model';
 
 // ---------------->> Create Product Service <<-----------------
 const createProduct = async (payload: IProduct) => {
-  console.log(payload);
+  // check if product exist
+  const isProductAlreadyExist = await Product.findOne({ name: payload.name });
+  if (isProductAlreadyExist) {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      `Product ${payload.name} is already exists`,
+    );
+  }
+
+  // check category id exist
+  const isCategoryExist = await Category.findById(payload.categoryId);
+  if (!isCategoryExist) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      `Category id ${payload.categoryId} is not exists`,
+    );
+  }
+
+  // add product in database
+  const result = (await Product.create(payload)).populate('categoryId');
+  return result;
 };
 
 // ---------------->> Get All Product Service <<-----------------
