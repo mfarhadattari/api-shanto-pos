@@ -44,7 +44,7 @@ class QueryBuilder<T> {
     const limit = Number(this.query?.limit) | 10;
     const skip = (page - 1) * limit;
     this.modelQuery = this.modelQuery.skip(skip);
-    return this.modelQuery;
+    return this;
   }
 
   // fields functionality

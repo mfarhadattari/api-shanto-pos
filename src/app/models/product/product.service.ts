@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import AppError from '../../error/AppError';
+import QueryBuilder from '../../utils/QueryBuilder';
 import { Category } from '../category/category.model';
 import { IProduct } from './product.interface';
 import { Product } from './product.model';
@@ -31,7 +32,15 @@ const createProduct = async (payload: IProduct) => {
 
 // ---------------->> Get All Product Service <<-----------------
 const getAllProduct = async (query: Record<string, unknown>) => {
-  console.log(query);
+  const modelQuery = Product.find().populate('categoryId');
+  const productQuery = new QueryBuilder(modelQuery, query)
+    .search(['name'])
+    .filter()
+    .sort()
+    .paginate();
+
+  const result = await productQuery.modelQuery;
+  return result;
 };
 
 // ---------------->> Get Single Product Service <<-----------------
