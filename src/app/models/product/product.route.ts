@@ -2,7 +2,10 @@ import express from 'express';
 import authValidator from '../../middlewares/authValidator';
 import reqBodyValidator from '../../middlewares/reqBodyValidator';
 import { ProductControllers } from './product.controller';
-import { createProductValidationSchema } from './product.validation';
+import {
+  createProductValidationSchema,
+  updateProductValidationSchema,
+} from './product.validation';
 
 // initialize router
 const router = express.Router();
@@ -33,6 +36,7 @@ router.get(
 router.patch(
   '/:productId',
   authValidator('SUPER_ADMIN'),
+  reqBodyValidator(updateProductValidationSchema),
   ProductControllers.updateProduct,
 );
 

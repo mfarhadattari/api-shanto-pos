@@ -45,7 +45,7 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 
 // ---------------->> Get Single Product Service <<-----------------
 const getSingleProduct = async (productId: string) => {
-  const result = await Product.findById(productId);
+  const result = await Product.findById(productId).populate('categoryId');
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, `Product is not exists`);
   }
@@ -54,7 +54,19 @@ const getSingleProduct = async (productId: string) => {
 
 // ---------------->> Update Product Service <<-----------------
 const updateProduct = async (productId: string, payload: Partial<IProduct>) => {
-  console.log({ productId, payload });
+  // check if product exist
+  const isProductAlreadyExist = await Product.findById(productId);
+  if (!isProductAlreadyExist) {
+    throw new AppError(httpStatus.NOT_FOUND, `Product is not exists`);
+  }
+
+  // update product
+  const result = await Product.findByIdAndUpdate(productId, payload, {
+    new: true,
+    runValidators: true,
+  }).populate('categoryId');
+
+  return result;
 };
 
 // ---------------->> Delete Product Service <<-----------------

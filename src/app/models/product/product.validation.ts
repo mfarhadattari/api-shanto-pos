@@ -39,12 +39,6 @@ export const updateProductValidationSchema = z.object({
       .string({ required_error: 'Product image URL is required' })
       .url({ message: 'Product image must be a valid URL' })
       .optional(),
-    categoryId: z
-      .string({
-        invalid_type_error: 'Product category id must be string',
-        required_error: 'Product category id is required',
-      })
-      .optional(),
     price: z
       .number({
         required_error: 'Product price is required',
