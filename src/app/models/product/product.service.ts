@@ -45,7 +45,11 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 
 // ---------------->> Get Single Product Service <<-----------------
 const getSingleProduct = async (productId: string) => {
-  console.log({ productId });
+  const result = await Product.findById(productId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, `Product is not exists`);
+  }
+  return result;
 };
 
 // ---------------->> Update Product Service <<-----------------
