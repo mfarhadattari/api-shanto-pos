@@ -68,10 +68,41 @@ const clearCarts = async (adminInfo: JwtPayload) => {
   return null;
 };
 
+// ----------------->> Update Cart Quantity Service <<-------------------
+const updateCartQuantity = async (
+  adminInfo: JwtPayload,
+  cartId: string,
+  payload: { quantity: number },
+) => {
+  // check cart exist
+  const isCartExist = await Cart.findById(cartId);
+  if (!isCartExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Cart is not found');
+  }
+
+  // check created by and admin user name
+  const isAdminHasPermission = adminInfo.username === isCartExist.createdBy;
+  if (!isAdminHasPermission) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'Unauthorized, you do not have permission',
+    );
+  }
+
+  // update cart
+  const result = await Cart.findByIdAndUpdate(cartId, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  return result;
+};
+
 // ----------------->> Export Cart Services <<-------------------
 export const CartServices = {
   createCart,
   myCarts,
   deleteCart,
   clearCarts,
+  updateCartQuantity,
 };

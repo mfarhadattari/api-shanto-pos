@@ -2,7 +2,10 @@ import express from 'express';
 import authValidator from '../../middlewares/authValidator';
 import reqBodyValidator from '../../middlewares/reqBodyValidator';
 import { CartControllers } from './cart.controller';
-import { cartValidationSchema } from './cart.validation';
+import {
+  cartValidationSchema,
+  updateCartQuantityValidationSchema,
+} from './cart.validation';
 
 // initialize router
 const router = express.Router();
@@ -25,11 +28,19 @@ router.delete(
   CartControllers.clearCarts,
 );
 
-// ---------------->> My Carts Route <<-----------------
+// ---------------->> Delete Cart Route <<-----------------
 router.delete(
   '/:cartId',
   authValidator('ADMIN', 'SUPER_ADMIN'),
   CartControllers.deleteCart,
+);
+
+// ---------------->> Update Cart Quantity Route <<-----------------
+router.patch(
+  '/:cartId',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  reqBodyValidator(updateCartQuantityValidationSchema),
+  CartControllers.updateCartQuantity,
 );
 
 // export cart routes

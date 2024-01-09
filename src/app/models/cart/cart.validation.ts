@@ -11,3 +11,12 @@ export const cartValidationSchema = z.object({
       .default(1),
   }),
 });
+
+export const updateCartQuantityValidationSchema = z.object({
+  body: z.object({
+    quantity: z.number({
+      invalid_type_error: 'Quantity must be a number',
+      required_error: 'Quantity is required',
+    }),
+  }),
+});

@@ -45,10 +45,25 @@ const clearCarts = catchAsync(async (req, res) => {
   });
 });
 
+// ----------------->> Update Cart Quantity Controller <<-----------------------
+const updateCartQuantity = catchAsync(async (req, res) => {
+  const result = await CartServices.updateCartQuantity(
+    req.user,
+    req.params.cartId,
+    req.body,
+  );
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'Cart quantity updated successfully',
+    data: result,
+  });
+});
+
 // ----------------->> Export Cart Controllers <<-------------------
 export const CartControllers = {
   createCart,
   myCarts,
   deleteCart,
   clearCarts,
+  updateCartQuantity,
 };
