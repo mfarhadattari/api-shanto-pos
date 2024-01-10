@@ -3,6 +3,7 @@ import { AdminRoutes } from '../models/admin/admin.route';
 import { AuthRoutes } from '../models/auth/auth.route';
 import { CartRoutes } from '../models/cart/cart.route';
 import { CategoryRoutes } from '../models/category/category.route';
+import { OrderRoutes } from '../models/order/order.route';
 import { ProductRoutes } from '../models/product/product.route';
 
 // -------------->> Initialized Router <<------------------
@@ -28,6 +29,10 @@ const applicationRoutes = [
   {
     path: '/carts',
     routes: CartRoutes,
+  },
+  {
+    path: '/orders',
+    routes: OrderRoutes,
   },
 ];
 
