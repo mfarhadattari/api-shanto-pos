@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { TPaymentMethod } from '../transaction/transaction.interface';
 
 export interface IOrderProduct {
   product: Types.ObjectId;
@@ -11,5 +12,17 @@ export interface IOrder {
   customerId: Types.ObjectId;
   products: IOrderProduct[];
   totalAmount: number;
-  createdBy: string;
+  createdBy: Date;
+}
+
+export interface ICreateOrder {
+  name: string;
+  email?: string;
+  phone: string;
+  address: string;
+  paymentBy: TPaymentMethod;
+  paymentId: string;
+  paymentAt: Date;
+  amount: number;
+  products: IOrderProduct[];
 }
