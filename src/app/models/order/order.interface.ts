@@ -12,7 +12,7 @@ export interface IOrder {
   customerId: Types.ObjectId;
   products: IOrderProduct[];
   totalAmount: number;
-  createdBy: Date;
+  createdBy: string;
 }
 
 export interface ICreateOrder {

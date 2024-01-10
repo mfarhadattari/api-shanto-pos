@@ -13,6 +13,10 @@ const transactionSchema = new Schema<ITransaction>(
       type: String,
       required: true,
     },
+    paymentAt: {
+      type: Date,
+      required: true,
+    },
     amount: {
       type: Number,
       required: true,
