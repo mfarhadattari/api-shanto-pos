@@ -22,5 +22,12 @@ router.get(
   OrderControllers.getAllOrders,
 );
 
+// ----------->> Get Single Order Route <<--------------
+router.get(
+  '/:orderId',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  OrderControllers.getSingleOrder,
+);
+
 // ----------->> Export Order Routes <<--------------
 export const OrderRoutes = router;

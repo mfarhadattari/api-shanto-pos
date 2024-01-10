@@ -146,5 +146,25 @@ const getAllOrders = async (
   return result;
 };
 
+// ----------->> Get All Orders Service <<--------------
+const getSingleOrder = async (adminInfo: JwtPayload, orderId: string) => {
+  const result = await Order.findById(orderId);
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Order not found');
+  }
+
+  if (
+    adminInfo.role !== 'SUPER_ADMIN' ||
+    adminInfo.username !== result.createdBy
+  ) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'Unauthorized, you do not have permission',
+    );
+  }
+
+  return result;
+};
+
 // ----------->> Export Order Services <<--------------
-export const OrderServices = { createOrder, getAllOrders };
+export const OrderServices = { createOrder, getAllOrders, getSingleOrder };
