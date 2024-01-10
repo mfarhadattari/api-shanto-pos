@@ -15,5 +15,12 @@ router.post(
   OrderControllers.createOrder,
 );
 
+// ----------->> Get All Orders Route <<--------------
+router.get(
+  '/',
+  authValidator('ADMIN', 'SUPER_ADMIN'),
+  OrderControllers.getAllOrders,
+);
+
 // ----------->> Export Order Routes <<--------------
 export const OrderRoutes = router;

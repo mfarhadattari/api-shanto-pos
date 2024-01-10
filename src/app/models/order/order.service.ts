@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
-import mongoose from 'mongoose';
+import mongoose, { Query } from 'mongoose';
 import AppError from '../../error/AppError';
+import QueryBuilder from '../../utils/QueryBuilder';
 import { ICustomer } from '../customer/customer.interface';
 import { Customer } from '../customer/order.model';
 import { Product } from '../product/product.model';
@@ -118,5 +119,32 @@ const createOrder = async (adminInfo: JwtPayload, payload: ICreateOrder) => {
   }
 };
 
+// ----------->> Get All Orders Service <<--------------
+const getAllOrders = async (
+  adminInfo: JwtPayload,
+  query: Record<string, unknown>,
+) => {
+  const role = adminInfo.role;
+  let modelQuery: Query<IOrder[], IOrder>;
+  if (role === 'ADMIN') {
+    modelQuery = Order.find({ createdBy: adminInfo.username });
+  } else if (role === 'SUPER_ADMIN') {
+    modelQuery = Order.find();
+  } else {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      'Unauthorized, You are unauthorized',
+    );
+  }
+
+  const orderQuery = new QueryBuilder(modelQuery, query)
+    .filter()
+    .sort()
+    .paginate();
+
+  const result = await orderQuery.modelQuery;
+  return result;
+};
+
 // ----------->> Export Order Services <<--------------
-export const OrderServices = { createOrder };
+export const OrderServices = { createOrder, getAllOrders };
