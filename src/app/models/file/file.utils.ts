@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
 import httpStatus from 'http-status';
@@ -21,7 +23,10 @@ export const upload = multer({ storage: storage });
 // ---------->> cloudinary File Upload <<------------
 cloudinary.config(config.cloudinary_config);
 
-export const uploadImageIntoCloudinary = (imageName: string, path: string) => {
+export const uploadImageIntoCloudinary = async (
+  imageName: string,
+  path: string,
+) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
       path,
@@ -50,4 +55,20 @@ export const uploadImageIntoCloudinary = (imageName: string, path: string) => {
       },
     );
   });
+};
+
+export const deleteImageFromCloudinary = async (imageURL: string) => {
+  const publicId = imageURL
+    .split('/')
+    [imageURL.split('/').length - 1].split('.')[0];
+  await cloudinary.uploader
+    .destroy(publicId)
+    .then((result) => {
+      if (result.result !== 'ok') {
+        throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete image');
+      }
+    })
+    .catch((err) => {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to delete image');
+    });
 };

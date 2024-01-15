@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { uploadImageIntoCloudinary } from './file.utils';
+import {
+  deleteImageFromCloudinary,
+  uploadImageIntoCloudinary,
+} from './file.utils';
 
 // -------------->> File Upload Service <<------------
 const uploadFile = async (imageName: string, file: any) => {
@@ -10,5 +13,11 @@ const uploadFile = async (imageName: string, file: any) => {
   return { url: uploadImage.secure_url };
 };
 
+// -------------->> Delete File Service <<------------
+const deleteFile = async (imageURL: string) => {
+  await deleteImageFromCloudinary(imageURL);
+  return null;
+};
+
 // -------------->> Exporting File Services <<------------
-export const FileServices = { uploadFile };
+export const FileServices = { uploadFile, deleteFile };

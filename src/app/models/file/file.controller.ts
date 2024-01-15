@@ -16,5 +16,17 @@ const uploadFile = catchAsync(async (req, res) => {
   });
 });
 
+// -------------->> File Delete Controller <<------------
+const deleteFile = catchAsync(async (req, res) => {
+  const url = req.query.url as string;
+  const result = await FileServices.deleteFile(url);
+
+  sendResponse(res, {
+    status: httpStatus.OK,
+    message: 'File Deleted Successfully',
+    data: result,
+  });
+});
+
 // -------------->> Exporting File Controllers <<------------
-export const FileControllers = { uploadFile };
+export const FileControllers = { uploadFile, deleteFile };
