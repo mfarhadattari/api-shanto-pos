@@ -5,11 +5,8 @@ import {
 } from './file.utils';
 
 // -------------->> File Upload Service <<------------
-const uploadFile = async (imageName: string, file: any) => {
-  const uploadImage: any = await uploadImageIntoCloudinary(
-    imageName,
-    file.path,
-  );
+const uploadFile = async (file: any) => {
+  const uploadImage: any = await uploadImageIntoCloudinary(file);
   return { url: uploadImage.secure_url };
 };
 

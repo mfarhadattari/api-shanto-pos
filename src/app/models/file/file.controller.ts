@@ -6,8 +6,7 @@ import { FileServices } from './file.service';
 // -------------->> File Upload Controller <<------------
 const uploadFile = catchAsync(async (req, res) => {
   const file = req.file;
-  const fileName = (req.query.fileName || Date.now()) as string;
-  const result = await FileServices.uploadFile(fileName, file);
+  const result = await FileServices.uploadFile(file);
 
   sendResponse(res, {
     status: httpStatus.OK,

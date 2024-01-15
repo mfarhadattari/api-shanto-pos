@@ -1,6 +1,8 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
 import { config } from './config';
 import globalErrorHandler from './middlewares/globalErrorHandler';
 import notFound from './middlewares/notFound';
@@ -18,6 +20,7 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+app.use(favicon(path.join(process.cwd(), 'public/icon.png')));
 
 // -------------->> Application Routes <<----------------
 app.use('/api', router);
