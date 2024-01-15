@@ -3,6 +3,7 @@ import { AdminRoutes } from '../models/admin/admin.route';
 import { AuthRoutes } from '../models/auth/auth.route';
 import { CartRoutes } from '../models/cart/cart.route';
 import { CategoryRoutes } from '../models/category/category.route';
+import { FileRoutes } from '../models/file/file.route';
 import { OrderRoutes } from '../models/order/order.route';
 import { ProductRoutes } from '../models/product/product.route';
 
@@ -33,6 +34,10 @@ const applicationRoutes = [
   {
     path: '/orders',
     routes: OrderRoutes,
+  },
+  {
+    path: '/files',
+    routes: FileRoutes,
   },
 ];
 
